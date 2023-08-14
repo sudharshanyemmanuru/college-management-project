@@ -1,0 +1,95 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="//www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+	<title>Subject Management</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/footer.css">
+	<style type="text/css">
+		a {
+			color: white;
+			text-decoration: none;
+		}
+
+		a:hover {
+			color: white;
+			text-decoration: none;
+		}
+
+		.header-section {
+			background-color: #17a2b8;
+			padding: 30px;
+			color: #fff;
+			text-align: center;
+			margin: 0px;
+		}
+
+		.section {
+			padding: 100px 0;
+		}
+
+		.container {
+			text-align: center;
+			padding: 20px;
+			margin-bottom: 20px;
+		}
+
+		.card {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 10px;
+			background-color: #f0f0f0;
+			border-radius: 10px;
+		}
+
+		.dropdown {
+			margin-bottom: 30px;
+		}
+
+		.dropdown select {
+			width: 400px;
+			/* Set the desired width */
+		}
+
+		.row {
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="header-section">
+		<h2>Manage Subject Details</h2>
+		<a th:href="@{/admin/gotoSubjectManagement}">subject-managament</a>
+	</div>
+	<table class="table table-bordered table-striped">
+		<thead class="thead-dark">
+			<tr>
+				<th>Subject Id</th>
+				<th>Subject Name</th>
+				<th>Department Name</th>
+				<th>Year-Sem</th>
+				<th>Subject Code</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="sub:${subjects}">
+				<td th:text="${sub.subjectId}"></td>
+				<td th:text="${sub.name}"></td>
+				<td th:text="${deptName}"></td>
+				<td th:text="${sub.yearSem}"></td>
+				<td th:text="${sub.subjectCode}"></td>
+				<td>
+					<a th:href="@{/admin/viewFaculties(subCode=${sub.subjectCode})}" class="btn btn-sm btn-danger" 
+						>View All Faculties</a>
+				<a th:href="@{/admin/viewStudents(subCode=${sub.subjectCode})}" class="btn btn-sm btn-danger" data-toggle="modal"
+						data-target="#subjectModal">View Enrolled Students</a>
+				</td>
+			</tr>
+			<!-- Add more rows as needed -->
+		</tbody>
+	</table>
+</body>
+
+</html>

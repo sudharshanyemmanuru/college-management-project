@@ -1,0 +1,348 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="//www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/footer.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.1.0/main.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+	<title>dashboard</title>
+	<style type="text/css">
+		a {
+			color: white;
+			text-decoration: none;
+		}
+
+		a:hover {
+			color: white;
+			text-decoration: none;
+		}
+
+		.header-section {
+			background-color: #17a2b8;
+			padding: 30px;
+			color: #fff;
+			text-align: center;
+			margin: 0px;
+		}
+
+		.section {
+			padding: 100px 0;
+		}
+
+		.container {
+			text-align: center;
+			padding: 20px;
+			margin-bottom: 20px;
+		}
+
+		.card {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 10px;
+			background-color: #f0f0f0;
+			border-radius: 10px;
+		}
+
+		.dropdown {
+			margin-bottom: 30px;
+		}
+
+		.dropdown select {
+			width: 400px;
+			/* Set the desired width */
+		}
+
+		.row {
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="header-section">
+		<h4 th:text="'Welcome '+${authentication}"></h4>
+		<h2>Dash Board</h2>
+		<a th:href="@{/logout}">Logout</a>
+	</div>
+	<div sec:authorize="hasRole('ROLE_ADMIN')">
+
+		<section class="section">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="card" style="width: 18rem;">
+							<div class="card-body">
+								<h5 class="card-title">Messages</h5>
+								<p class="card-text">You can see the people who contacted you
+									for joining in college by clicking here.</p>
+								<button type="button" class="btn btn-primary mt-3" data-toggle="modal"
+									data-target="#messageModal">
+									show messages
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="card" style="width: 18rem;">
+							<div class="card-body">
+								<h5 class="card-title">Join Faculty</h5>
+								<p class="card-text">You can Join the Faculty by Filling
+									required details into the our college database.</p>
+								<a th:href="@{/admin/facultyManagement}" class="btn btn-primary mt-3">Faculty
+									Management</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="card" style="width: 18rem;">
+							<div class="card-body">
+								<h5 class="card-title">Join Students</h5>
+								<p class="card-text">You can Join the Students by Filling
+									required details into the our college database.</p>
+								<a th:href="@{/admin/studentManagement}" class="btn btn-primary mt-3">Student
+									Management</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="card" style="width: 18rem;">
+							<div class="card-body">
+								<h5 class="card-title">Add New Department</h5>
+								<p class="card-text">You can see the people who contacted you
+									for joining in college by clicking here.</p>
+								<button type="button" class="btn btn-primary mt-3" data-toggle="modal"
+									data-target="#departmentModal">
+									Add Department
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="card" style="width: 18rem;">
+							<div class="card-body">
+								<h5 class="card-title">Enroll Faculty-subjects</h5>
+								<p class="card-text">You can see the people who contacted you
+									for joining in college by clicking here.</p>
+								<button type="button" class="btn btn-primary mt-3" data-toggle="modal"
+									data-target="#messageModal">
+									Enroll Faculty
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="card" style="width: 18rem;">
+							<div class="card-body">
+								<h5 class="card-title">Enroll Students-subjects</h5>
+								<p class="card-text">You can see the people who contacted you
+									for joining in college by clicking here.</p>
+								<button type="button" class="btn btn-primary mt-3" data-toggle="modal"
+									data-target="#messageModal">
+									Enroll Student
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="card" style="width: 18rem;">
+							<div class="card-body">
+								<h5 class="card-title">Manage Subjects</h5>
+								<p class="card-text">You can see the people who contacted you
+									for joining in college by clicking here.</p>
+								<a th:href="@{/admin/subjectManagement}" class="btn btn-primary mt-3">
+									Subject Management
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Message Modal -->
+				<div class="modal fade" id="messageModal" tabindex="-1" role="dialog"
+					aria-labelledby="facultyModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="facultyModalLabel">New Faculty Details</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<table class="table table-bordered table-striped">
+									<thead class="thead-dark">
+										<tr>
+											<th>Name</th>
+											<th>Email</th>
+											<th>Contact</th>
+											<th>Description</th>
+											<th>Actions</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>John Doe</td>
+											<td>johndoe@example.com</td>
+											<td>123-456-7890</td>
+											<td>Assistant Professor</td>
+											<td>
+												<button type="button" class="btn btn-sm btn-primary">Edit</button>
+												<button type="button" class="btn btn-sm btn-danger">Delete</button>
+											</td>
+										</tr>
+										<!-- Add more rows as needed -->
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--Department Modal -->
+				<div class="modal fade" id="departmentModal" tabindex="-1" role="dialog"
+					aria-labelledby="facultyModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="facultyModalLabel">Add New Department</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form th:action="@{/admin/addDepartment}" method="post" id="deptForm">
+									<div class="form-group">
+										<label for="name">Department Name</label>
+										<input type="text" class="form-control" id="name"
+											placeholder="Enter Department name" required name="dept">
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-primary" onclick="submitForm()">Save</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Success Modal -->
+				<div class="modal" id="successModal" tabindex="-1" role="dialog">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Success!</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								Your action was successful!
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Add Thymeleaf attribute conditionally to trigger the success modal -->
+				<div th:if="${!#strings.isEmpty(isSuccess)}" th:data-toggle="modal" th:data-target="#successModal"
+					th:id="${isSuccess}" onload="showModal()">
+				</div>
+				<!-- Bootstrap JS and jQuery -->
+				<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+				<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+				<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+				<script>
+					function submitForm() {
+						var dept = document.getElementById("deptForm");
+						dept.submit();
+					}
+				</script>
+
+				<script>
+					function showModal() {
+						var isSuccess = document.getElementById;
+
+
+						var modal = document.getElementById("successModal");
+						modal.style.display = "block";
+
+					}
+
+					function closeModal() {
+						var modal = document.getElementById("successModal");
+						modal.style.display = "none";
+					}
+				</script>
+
+
+			</div>
+
+		</section>
+	</div>
+	<div sec:authorize="hasRole('ROLE_STUDENT')">
+		<div class="container">
+			<form th:action="@{/student/studentSubjects}" method="post">
+				<div class="card">
+					<div class="dropdown">
+						<select class="form-control" name="yearSem">
+							<option>Select Year</option>
+							<option>1-1</option>
+							<option>1-2</option>
+							<option>2-1</option>
+							<option>2-2</option>
+							<option>3-1</option>
+							<option>3-2</option>
+							<option>4-1</option>
+							<option>4-2</option>
+						</select>
+					</div>
+					<button class="btn btn-primary" id="loadDetails">Load
+						Subjects</button>
+				</div>
+			</form>
+			<div id="calendar"></div>
+		</div>
+
+	</div>
+	<div sec:authorize="hasRole('ROLE_FACULTY')">
+		<div class="container">
+			<form th:action="@{/faculty/loadDetails}" method="post">
+				<div class="card">
+					<div class="dropdown">
+						<select class="form-control" name="yearSem">
+							<option>Select Year</option>
+							<option>1-1</option>
+							<option>1-2</option>
+							<option>2-1</option>
+							<option>2-2</option>
+							<option>3-1</option>
+							<option>3-2</option>
+							<option>4-1</option>
+							<option>4-2</option>
+						</select>
+					</div>
+					<button class="btn btn-primary" id="loadDetails">Load
+						Details</button>
+				</div>
+			</form>
+			<div id="calendar"></div>
+		</div>
+	</div>
+	<script>
+			document.addEventListener('DOMContentLoaded', function () {
+				var calendarEl = document.getElementById('calendar');
+				var calendar = new FullCalendar.Calendar(calendarEl, {
+					initialView: 'dayGridMonth'
+				});
+				calendar.render();
+			});
+		</script>
+</body>
+<div th:replace="footer::footer"></div>
+
+</html>

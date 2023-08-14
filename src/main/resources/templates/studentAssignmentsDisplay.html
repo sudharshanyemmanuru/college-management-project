@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="//www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment List</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Include your custom CSS for additional styling -->
+    <style>
+		a {
+			color: white;
+			text-decoration: none;
+		}
+
+		a:hover {
+			color: white;
+			text-decoration: none;
+		}
+
+		.header-section {
+			background-color: #17a2b8;
+			padding: 30px;
+			color: #fff;
+			text-align: center;
+			margin: 0px;
+		}
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .assignment-card {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #f5f5f5;
+            border-bottom: none;
+        }
+        .card-title {
+            color: #333333;
+            font-weight: bold;
+        }
+        .card-subject {
+            color: #666666;
+        }
+        .open-button {
+            background-color: #007bff;
+            border: none;
+            color: #ffffff;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+        }
+        .open-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+	<div class="header-section">
+		<h2 class="text-center">Assignments</h2>
+		<a th:href="@{'/student/getCourse?code='+${subCode}}">dashboard</a>
+	</div>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-4 mb-4" th:each="assignment:${assignments}">
+                <div class="card assignment-card">
+                    <div class="card-header">
+                        <h5 class="card-title" th:text="'Assignment #'+${assignment.assignmentNumber}"></h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-subject" th:text="'Topic Name: '+${assignment.topic}"></p>
+                        <a th:href="@{'/student/openassignment?num='+${assignment.assignmentNumber}}" class="btn open-button">Open</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

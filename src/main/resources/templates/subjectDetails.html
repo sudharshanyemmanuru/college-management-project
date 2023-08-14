@@ -1,0 +1,185 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="//www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Subject Cards</title>
+	<!-- Include Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="/css/footer.css">
+	<style type="text/css">
+		a {
+			color: white;
+			text-decoration: none;
+		}
+
+		a:hover {
+			color: white;
+			text-decoration: none;
+		}
+
+		.header-section {
+			background-color: #17a2b8;
+			padding: 30px;
+			color: #fff;
+			text-align: center;
+			margin: 0px;
+		}
+
+		.subjectForm {
+			display: inline;
+		}
+
+		select {
+			height: 5%;
+		}
+
+		.drop-downs {
+			position: relative;
+			left: 50px;
+			top: 30px;
+			margin-bottom: 20px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="header-section">
+		<h2 th:text="${subName.name}"></h2>
+		<a th:href="@{/faculty/loadDetails}">my-subjects</a>
+	</div>
+	<div class="drop-downs">
+		<form th:action="@{/faculty/getStudents}" method="post">
+			<select name="batch">
+				<option>--Select Batch--</option>
+				<option>2019-2023</option>
+				<option>2020-2024</option>
+				<option>2021-2025</option>
+			</select>
+			<select name="section">
+				<option>--Select Section--</option>
+				<option>A</option>
+				<option>B</option>
+				<option>C</option>
+				<option>D</option>
+				<option>E</option>
+				<option>F</option>
+			</select>
+			<button type="submit" class="btn btn-primary">Get Student Details</button>
+		</form>
+	</div>
+
+	<div class="container mt-5">
+		<div class="row mt-4">
+			<!-- Card for Taking Attendance -->
+			<div class="col-md-4">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Take Attendance</h5>
+						<p class="card-text">Record student attendance </p>
+						<a th:href="@{/faculty/attendanceform}" class="btn btn-primary">Start Taking Attendance</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Card for Uploading Assignments -->
+			<div class="col-md-4">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Upload Assignments</h5>
+						<p class="card-text">Upload assignments for your subjects.</p>
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">
+							Upload Assignment
+						</button>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- Card for Viewing Assignment Submissions -->
+			<div class="col-md-4">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">View Assignment Submissions</h5>
+						<p class="card-text">See submissions of assignments.</p>
+						<a th:href="@{/faculty/fetchallassignments}" class="btn btn-primary">View Submissions</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Post Quiz</h5>
+						<p class="card-text">Post Quiz on your subject</p>
+						<a href="#" class="btn btn-primary">Start Posting Quiz</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-4">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Important Documents Upload</h5>
+						<p class="card-text">Any documents related to subject notes or syllabus</p>
+						<a th:href="@{/faculty/documents}" class="btn btn-primary">Upload Here</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Additional Cards... -->
+		</div>
+	</div>
+
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="uploadModalLabel">Upload Assignment</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form th:Object="${assignment}" th:action="@{/faculty/uploadAssignment}" method="post" id="assignmentForm">
+						<div class="form-group">
+							<label for="assignmentNumber">Assignment Number</label>
+							<input type="text" class="form-control" id="assignmentNumber"
+								placeholder="Enter assignment number" th:field="*{assignmentNumber}">
+						</div>
+						<div class="form-group">
+							<label for="assignmentNumber">Assignment Number</label>
+							<input type="text" class="form-control" id="assignmentNumber"
+								placeholder="Topic Name" th:field="*{topic}">
+						</div>
+						<div class="form-group">
+							<label for="question">Question</label>
+							<textarea class="form-control" id="question" rows="15" cols="15"
+								placeholder="Enter assignment question" th:field="*{questions}"></textarea>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" onclick="uploadAssignment()">Upload</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Include Bootstrap JS and jQuery -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script>
+		function uploadAssignment(){
+			var myElement=document.getElementById("assignmentForm");
+			myElement.submit();
+		}
+	</script>
+</body>
+
+</html>

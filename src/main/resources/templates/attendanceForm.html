@@ -1,0 +1,92 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="//www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+	<title>Attendance Management</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/footer.css">
+	<style type="text/css">
+		a {
+			color: white;
+			text-decoration: none;
+		}
+
+		a:hover {
+			color: white;
+			text-decoration: none;
+		}
+
+		.header-section {
+			background-color: #17a2b8;
+			padding: 30px;
+			color: #fff;
+			text-align: center;
+			margin: 0px;
+		}
+
+		.section {
+			padding: 100px 0;
+		}
+
+		.container {
+			text-align: center;
+			padding: 20px;
+			margin-bottom: 20px;
+		}
+
+		.card {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 10px;
+			background-color: #f0f0f0;
+			border-radius: 10px;
+		}
+
+		.dropdown {
+			margin-bottom: 30px;
+		}
+
+		.dropdown select {
+			width: 400px;
+			/* Set the desired width */
+		}
+
+		.row {
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="header-section">
+		<h2>Manage Subject Details</h2>
+		<a th:href="@{'/faculty/courseContent?code='+${subCode}}">dashboard</a>
+	</div>
+	<li class="alert alert-success" role="alert" th:if="${!#strings.isEmpty(errorMessage)}" th:text="${errorMessage}"></li>
+	<form th:action="@{/faculty/submitAttendance}" method="post" >
+		<table class="table table-bordered table-striped">
+			<thead class="thead-dark">
+				<tr>
+					<th>Student Name</th>
+					<th>Roll Number</th>
+					<th>Department</th>
+					<th>Present</th>
+					<th>Absent</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="student,status:${enrolledStudents}">
+					<td th:text="${student.name}"></td>
+					<td th:text="${student.rollNum}"></td>
+					<td th:text="${student.department1.name}"></td>
+					<td><input type="radio" th:name="'attendStat-'+${status.index}" value="present" /></td>
+					<td><input type="radio" th:name="'attendStat-'+${status.index}" value="absent" /></td>
+					
+				</tr>
+			</tbody>
+		</table>
+		<button type="submit" class="btn btn-sm btn-primary">Submit Attendance</button>
+	</form>
+</body>
+
+</html>

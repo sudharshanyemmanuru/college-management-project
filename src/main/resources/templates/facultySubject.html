@@ -1,0 +1,154 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="//www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+	<title>Subject Management</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/footer.css">
+	<style type="text/css">
+		a {
+			color: white;
+			text-decoration: none;
+		}
+
+		a:hover {
+			color: white;
+			text-decoration: none;
+		}
+
+		.header-section {
+			background-color: #17a2b8;
+			padding: 30px;
+			color: #fff;
+			text-align: center;
+			margin: 0px;
+		}
+
+		.section {
+			padding: 100px 0;
+		}
+
+		.container {
+			text-align: center;
+			padding: 20px;
+			margin-bottom: 20px;
+		}
+
+		.card {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 10px;
+			background-color: #f0f0f0;
+			border-radius: 10px;
+		}
+
+		.dropdown {
+			margin-bottom: 30px;
+		}
+
+		.dropdown select {
+			width: 400px;
+			/* Set the desired width */
+		}
+
+		.row {
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="header-section">
+		<h2>Faculties Dealing this subject</h2>
+		<a th:href="@{/admin/goToSubjects}">subjects</a>
+	</div>
+	<button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#facultyEnrollModal">Enroll New Faculty</button>
+	<button type="button" class="btn btn-danger mt-3" data-toggle="modal" data-target="#facultyUnEnrollModal">Un Enroll Faculty</button>
+	<table class="table table-bordered table-striped">
+		<thead class="thead-dark">
+			<tr>
+				<th>Faculty Id</th>
+				<th>Faculty Name</th>
+				<th>Department</th>
+				<th>Designation</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="f:${faculties}">
+				<td th:text="${f.facultyId}"></td>
+				<td th:text="${f.name}"></td>
+				<td th:text="${f.department.name}"></td>
+				<td th:text="${f.designation}"></td>
+			</tr>
+		</tbody>
+	</table>
+	<!-- Faculty Enroll Modal -->
+	<div class="modal fade" id="facultyEnrollModal" tabindex="-1" role="dialog" aria-labelledby="facultyModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="facultyModalLabel">Enroll New Faculty</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form th:action="@{/admin/enrollFaculty}" th:Object="${faculty}" id="facultyEnrollForm" method="post">
+						<div class="form-group">
+							<label for="email">Email</label>
+							<input type="email" class="form-control" id="email" placeholder="Enter email" required name="facultyEmailId">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" onclick="submitForm()">Enroll</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Faculty Un Enroll Modal -->
+	<div class="modal fade" id="facultyUnEnrollModal" tabindex="-1" role="dialog" aria-labelledby="facultyModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="facultyModalLabel">Un Enroll A Faculty</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form th:action="@{/admin/unEnrollFaculty}" th:Object="${faculty}" id="facultyUnEnrollForm" method="post">
+						<div class="form-group">
+							<label for="email">Email</label>
+							<input type="email" class="form-control" id="email" placeholder="Enter email" required name="facultyEmailId">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" onclick="submitUnEnrollForm()">UnEnroll</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Bootstrap JS and jQuery -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script>
+		function submitForm() {
+			var dept = document.getElementById("facultyEnrollForm");
+			dept.submit();
+		}
+		function submitUnEnrollForm(){
+			var dept=document.getElementById("facultyUnEnrollForm");
+			dept.submit();
+		}
+	</script>
+
+</body>
+
+</html>

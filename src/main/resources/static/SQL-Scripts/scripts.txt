@@ -1,0 +1,111 @@
+create database mydb
+use mydb
+
+create table users(
+	user_id int primary key auto_increment,
+	email varchar(40),
+	user_name varchar(40),
+    password varchar(40),
+    role_id int not null,
+    foreign key(role_id) references roles(role_id)
+)
+
+create table roles(
+	role_id int,
+    role_name varchar(30),
+    primary key(role_id)
+)
+insert into roles values(1,'ROLE_ADMIN'),(2,'ROLE_STUDENT'),(3,'ROLE_FACULTY')
+insert into users (email,user_name,password,role_id) values('admin@gmail.com','admin','143',1)
+
+CREATE TABLE department (
+    department_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE faculty (
+    faculty_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    contact VARCHAR(20) NOT NULL,
+    department_id INT NOT NULL,
+    CONSTRAINT fk_department_faculty FOREIGN KEY (department_id) REFERENCES Department(department_id)
+);
+
+CREATE TABLE student (
+    student_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    roll_number VARCHAR(20) NOT NULL,
+    batch VARCHAR(10) NOT NULL,
+    department_id INT NOT NULL,
+    section VARCHAR(5) NOT NULL,
+    CONSTRAINT fk_department_student FOREIGN KEY (department_id) REFERENCES Department(department_id)
+);
+
+CREATE TABLE subjects (
+    subject_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    department_id INT NOT NULL,
+    year_sem VARCHAR(10) NOT NULL,
+    CONSTRAINT fk_department_subject FOREIGN KEY (department_id) REFERENCES Department(department_id)
+);
+ALTER TABLE subjects ADD COLUMN subject_code VARCHAR(30) NOT NULL
+
+CREATE TABLE faculty_subject (
+    faculty_id INT ,
+    subject_id INT ,
+    CONSTRAINT fk_faculty_mapping FOREIGN KEY (faculty_id) REFERENCES faculty(faculty_id),
+    CONSTRAINT fk_subject_mapping FOREIGN KEY (subject_id) REFERENCES subjects(subject_id),
+    primary key(faculty_id,subject_id)
+);
+
+
+CREATE TABLE student_subject (
+    student_id INT ,
+    subject_id INT ,
+    CONSTRAINT fk_student_enrollment FOREIGN KEY (student_id) REFERENCES student(student_id),
+    CONSTRAINT fk_subject_enrollment FOREIGN KEY (subject_id) REFERENCES subjects(subject_id),
+    primary key(student_id,subject_id)
+);
+
+CREATE TABLE attendance_records (
+    record_id INT PRIMARY KEY AUTO_INCREMENT,
+    student_id INT NOT NULL,
+    subject_id INT NOT NULL,
+    attendance_date varchar(40),
+    is_present TINYINT(1) NOT NULL,
+    CONSTRAINT fk_student_attendance FOREIGN KEY (student_id) REFERENCES Student(student_id),
+    CONSTRAINT fk_student_subject FOREIGN KEY (subject_id) REFERENCES subjects(subject_id)
+);
+
+CREATE TABLE assignments (
+    assignment_id INT PRIMARY KEY AUTO_INCREMENT,
+    sub_id INT ,
+    assignment_num INT NOT NULL,
+    batch VARCHAR(10) NOT NULL,
+    year_sem VARCHAR(10) NOT NULL,
+    section VARCHAR(5) NOT NULL,
+    dept VARCHAR(100) NOT NULL,
+    questions TEXT NOT NULL,
+    CONSTRAINT fk_subject_assignment FOREIGN KEY (sub_id) REFERENCES Subjects(subject_id)
+);
+
+create table uploadfile(
+  fileid varchar(200),
+  file_name varchar(300),
+  filet_type varchar(20),
+  content  longblob,
+  sub_id INT,
+  CONSTRAINT fk_subject_dcoument FOREIGN KEY (sub_id) REFERENCES Subjects(subject_id)
+);
+
+CREATE TABLE assignmentsubmission (
+    submission_id INT PRIMARY KEY AUTO_INCREMENT,
+    student_id INT NOT NULL,
+    assignment_id INT NOT NULL,
+    submission_date VARCHAR(40),
+    content longblob,
+    CONSTRAINT fk_student_submission FOREIGN KEY (student_id) REFERENCES Student(student_id),
+    CONSTRAINT fk_assignment_submission FOREIGN KEY (assignment_id) REFERENCES Assignments(assignment_id),
+    UNIQUE KEY unique_submission (student_id, assignment_id)
+);

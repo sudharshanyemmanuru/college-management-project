@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="//www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document Upload</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<style>
+		a {
+			color: white;
+			text-decoration: none;
+		}
+
+		a:hover {
+			color: white;
+			text-decoration: none;
+		}
+
+		.header-section {
+			background-color: #17a2b8;
+			padding: 30px;
+			color: #fff;
+			text-align: center;
+			margin: 0px;
+		}
+
+		.section {
+			padding: 100px 0;
+		}
+
+		.container {
+			text-align: center;
+			padding: 20px;
+			margin-bottom: 20px;
+		}
+
+		.card {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 10px;
+			background-color: #f0f0f0;
+			border-radius: 10px;
+		}
+
+		.row {
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="header-section">
+		<h2 class="text-center">Assignment Submissions</h2>
+		<a href="">dashboard</a>
+	</div>
+	<div class="container mt-5">
+		<div class="row mt-5">
+			<div class="col-md-12">
+				<h2 class="text-center">Assignment Responses</h2>
+				<table class="table table-bordered">
+					<table class="table table-bordered table-striped">
+						<thead class="thead-dark">
+							<tr>
+								<th>Student Name</th>
+								<th>Roll Number</th>
+								<th>Download Response</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="submission:${submissions}">
+								<td th:text="${submission.student.name}"></td>
+								<td th:text="${submission.student.rollNum}"></td>
+								<td>
+									<a th:href="@{'/faculty/downloadresponse?id='+${submission.sumissionId}}" class="btn btn-warning">Download Response</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap JS (optional, but required for some features) -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
