@@ -15,6 +15,7 @@ public class SecurityConfig {
 	public SecurityFilterChain getFilterChain(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		http.authorizeHttpRequests(auth->auth.requestMatchers("/home").authenticated()
+				.requestMatchers("/profile").permitAll()
 				.requestMatchers("/static/**").permitAll()
 				.requestMatchers("/downloadFile").authenticated()
 				.requestMatchers("/login").permitAll()

@@ -131,7 +131,6 @@ public class FacultyController {
 		Subject mySubject = subjectService.getSubjectById(subject.getSubjectCode());
 		Enumeration<String> params = req.getParameterNames();
 		AttendanceRecords attendanceRecords;
-		@SuppressWarnings("unchecked")
 		List<Student> students = (List<Student>) session.getAttribute("filteredStudents");
 		List<Integer> Ids = students.stream().map(s -> s.getsId()).toList();
 		List<Student> studentList = studentService.getById(Ids);

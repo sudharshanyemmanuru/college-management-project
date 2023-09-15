@@ -3,6 +3,7 @@ package com.college.management.collegeproject.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +47,8 @@ public class AdminController {
 	private StudentService studentService;
 	@Autowired
 	private SubjectService subjectService;
-
+	@Value("${collge.name}")
+	private String collegeName;
 	@PostMapping("/addDepartment")
 	public String addDepartment(@RequestParam String dept, Model model, Authentication auth) {
 		String isSuccess="";
@@ -57,11 +59,13 @@ public class AdminController {
 			if (d1 != null && d1.getDepartment_id() > 0) {
 				isSuccess="Success";
 				model.addAttribute("isSuccess", isSuccess);
+				System.out.println("College Name is :"+collegeName);
 				return "redirect:/home";
 			}
 		} catch (Exception ex) {
 			System.out.println("Department Not Added " + ex.getMessage());
 		}
+		
 		return "redirect:/home";
 	}
 	@GetMapping("/facultyManagement")

@@ -37,13 +37,8 @@ public class Faculty {
 	private Department department;
 	
 	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
-	@JoinTable(
-			name="faculty_subject",
-			joinColumns = {@JoinColumn(name="faculty_id",referencedColumnName = "faculty_id")},
-			inverseJoinColumns = {@JoinColumn(name="subject_id",referencedColumnName ="subject_id")}
-			)
+	@JoinTable(name="faculty_subject", joinColumns = {@JoinColumn(name="faculty_id",referencedColumnName = "faculty_id")}, inverseJoinColumns = {@JoinColumn(name="subject_id",referencedColumnName ="subject_id")})
 	private List<Subject> subjects=new ArrayList<>();
-	
 	public List<Subject> getSubjects(){return this.subjects;}
 	public int getFacultyId() {
 		return facultyId;

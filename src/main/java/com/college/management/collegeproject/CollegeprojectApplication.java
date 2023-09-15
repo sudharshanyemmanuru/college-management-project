@@ -9,7 +9,6 @@ import org.springframework.security.web.authentication.ui.DefaultLoginPageGenera
 
 @SpringBootApplication
 public class CollegeprojectApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(CollegeprojectApplication.class, args);
 	
